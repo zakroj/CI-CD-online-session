@@ -1,11 +1,27 @@
 pipeline {
   agent any
   stages {
-    stage('FirstStage') {
+    stage('Build') {
       steps {
-        echo 'Hello There'
+        script {
+          checkout scm
+          def customImage = docker.build("${registry}:${env.BUILD_ID}")
+        }
+        
+      }
+    }
+    
+    stage('Publish') {
+      steps
+      script {
+        docker.withRegistry('', 'dockerhub-id') {
+          docker.image("${registry}:${env.BUILD_ID}").push('latest')
+        }
       }
     }
 
+  }
+  environment {
+    registry = 'zakroj/ci_cd_jenkins'
   }
 }
