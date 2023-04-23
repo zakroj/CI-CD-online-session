@@ -90,16 +90,8 @@ pipeline {
 	
 	      }
 	    }
-	stage('Deploy') {
-	  steps{
-	    sh 'docker stop ci_cd_jenkins || true; docker rm ci_cd_jenkins || true; docker run -d --name ci_cd_jenkins -p 9000:9000 zakroj/ci_cd_jenkins:latest'
-	  }
-	}
-	stage('Validation') {
-	  steps{
-	    sh 'sleep 5; curl -i http://localhost:9000/test_string'
-	  }
-	}
+	
+	
 	  }
   environment {
     registry = 'zakroj/ci_cd_jenkins'
